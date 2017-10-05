@@ -17,7 +17,7 @@ pip install -r requrements.txt
 python3 github_trending.py -h
 usage: github_trending.py [-h] [-c COUNT]
 
-this is a coursera random courses grabber.
+github trends watcher.
 
 optional arguments:
   -h, --help            show this help message and exit
