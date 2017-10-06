@@ -8,7 +8,7 @@ def get_date_week_ago_as_str():
     return day_week_ago.strftime('%Y-%m-%d')
 
 
-def get_json_from_api(url, payload):
+def get_repos_from_api(url, payload):
     response = requests.get(url, params=payload)
     return response.json()['items']
 
@@ -24,7 +24,7 @@ def extract_repo_info(repo_info):
 
 def get_trending_repositories(url, top_size, payload):
     return map(extract_repo_info, sorted(
-        get_json_from_api(url, payload),
+        get_repos_from_api(url, payload),
         key=lambda x: x['stargazers_count'])[:top_size])
 
 
@@ -60,7 +60,7 @@ if __name__ == '__main__':
 
     get_payload = {'q': 'created:>%s' % get_date_week_ago_as_str()}
 
-    for repo in get_trending_repositories(repo_api, args.count, get_payload):
+    for repo in get_trending_repositories(repo_api, int(args.count), get_payload):
         repo['issues_count'] = get_open_issues_amount(repo['issues_url']) \
             if repo['has_issues'] else 0
         print(format_output_str(repo))
