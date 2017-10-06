@@ -39,6 +39,7 @@ def get_args():
     parser.add_argument('-c', '--count',
                         help='How much repos do you want to see (default: 5)',
                         required=False,
+                        type=int,
                         default=5)
     return parser.parse_args()
 
@@ -60,7 +61,7 @@ if __name__ == '__main__':
 
     get_payload = {'q': 'created:>%s' % get_date_week_ago_as_str()}
 
-    for repo in get_trending_repositories(repo_api, int(args.count), get_payload):
+    for repo in get_trending_repositories(repo_api, args.count, get_payload):
         repo['issues_count'] = get_open_issues_amount(repo['issues_url']) \
             if repo['has_issues'] else 0
         print(format_output_str(repo))
